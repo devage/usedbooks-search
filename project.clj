@@ -6,7 +6,8 @@
                  [org.clojure/clojurescript "0.0-2657"]]
 
   :node-dependencies [[source-map-support "0.2.8"]
-                      [htmlparser2 "3.8.2"]]
+                      [parse5 "1.3.0"]
+                      [request "2.51.0"]]
 
   :plugins [[lein-cljsbuild "1.0.4"]
             [lein-npm "0.4.0"]]

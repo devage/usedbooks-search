@@ -1,26 +1,15 @@
-var http = require('http');
-var htmlparser = require('htmlparser2');
+var request = require('request');
+var parse5  = require('parse5');
 
-var parser = new htmlparser.Parser({
-	onopentag: function(name, attribs) {
-		console.log('tag: ' + name);
-	},
-	ontext: function(text) {
-		console.log('---> ', text);
-	},
-	onclosetag: function(text) {
-		// nothing
+request('http://www.google.co.kr', function(err, res, body) {
+	if(!err && res.statusCode == 200) {
+		var parser = new parse5.Parser();
+		var serializer = new parse5.Serializer();
+
+		var document = parser.parse(body);
+		console.dir(document.childNodes[1].childNodes[1]);
+
+		var html = serializer.serialize(document.childNodes[1].childNodes[1]);
+		console.log(html);
 	}
-}, {decodeEntities: true});
-
-http.get('http://www.google.co.kr/index.html', function(res) {
-	console.log('Got response: ' + res.statusCode);
-
-	res.on('data', function(chunk) {
-		parser.write(chunk);
-		parser.end();
-	});
-
-}).on('error', function(e) {
-	console.log('Got error: ' + e.message);
 });
