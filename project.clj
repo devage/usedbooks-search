@@ -6,6 +6,7 @@
                  [org.clojure/clojurescript "0.0-2657"]]
 
   :node-dependencies [[source-map-support "0.2.8"]
+                      [iconv   "2.1.5"]
                       [cheerio "0.18.0"]
                       [request "2.51.0"]]
 
