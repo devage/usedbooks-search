@@ -23,4 +23,5 @@
                 :output-dir "out"
                 :target :nodejs
                 :optimizations :none
-                :source-map true}}]})
+                :source-map true
+                :externs ["http_req.js"]}}]})
