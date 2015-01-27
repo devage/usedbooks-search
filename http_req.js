@@ -2,12 +2,12 @@ var request = require('request');
 var cheerio = require('cheerio');
 var iconv   = require('iconv').Iconv;
 
-var kr_2_utf8 = new iconv('euc-kr', 'utf-8//translit//ignore');
-var utf8_2_kr = new iconv('utf-8', 'euc-kr');
+var to_utf_8 = new iconv('euc-kr', 'utf-8');
+var to_euckr = new iconv('utf-8', 'euc-kr');
 
 var url_usedstore = "http://off.aladin.co.kr/usedstore/wsearchresult.aspx";
 
-function buf2url(buf)
+function enc_bin2percent(buf)
 {
   var str = "";
 
@@ -29,24 +29,25 @@ function buf2url(buf)
 
 exports.search_usedbooks = function(shop, query)
 {
-  var buf_utf8  = new Buffer(query, 'utf-8');
-  var query_euckr = utf8_2_kr.convert(buf_utf8);
-  var query_encd = buf2url(query_euckr);
+  var buf  = new Buffer(query, 'utf-8');
+  var qry_percent = enc_bin2percent(to_euckr.convert(buf));
+  var url = url_usedstore + "?offcode=" + shop + "&SearchWord=" + qry_percent;
 
-  var url = url_usedstore + "?offcode=" + shop + "&SearchWord=" + query_encd;
+  var options = {
+    url: url,
+    encoding: null // required for changing to 'utf-8'
+  };
 
-  console.log("URL: " + url);
+  //console.log("URL: " + url);
 
-  request(url, function(err, res, body) {
-
+  request(options, function(err, res, body) {
     if(!err && res.statusCode == 200) {
-      var buf = new Buffer(body, 'binary');
-      body = kr_2_utf8.convert(buf).toString('utf-8');
+      var body_str = to_utf_8.convert(body).toString('utf-8');
 
-      $ = cheerio.load(body);
+      $ = cheerio.load(body_str);
       var title = $('title').text();
 
-      console.log(title); // euc-kr crashed (by request?)
+      console.log(title);
     }
   });
 }
