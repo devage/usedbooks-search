@@ -45,9 +45,20 @@ exports.search_usedbooks = function(shop, query)
       var body_str = to_utf_8.convert(body).toString('utf-8');
 
       $ = cheerio.load(body_str);
-      var title = $('title').text();
+      var results = $('a.bo_l');
 
-      console.log(title);
+      console.log('['+ shop +']: # of results: ' + results.length);
+
+      if(results.length > 0) {
+        results.each(function(i, el) {
+          console.log('- ' + $(el).text());
+        });
+      }
+      else {
+        console.log("no result");
+      }
     }
   });
+
+  // how to return to closurescript with results?
 }
