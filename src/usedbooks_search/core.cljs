@@ -6,13 +6,13 @@
 (def http_req (nodejs/require "../http_req"))
 
 (defn -main [& args]
-  (.search_usedbooks http_req "gangnam"  (first args))
-  (.search_usedbooks http_req "geondae"  (first args))
-  (.search_usedbooks http_req "jongno"   (first args))
-  (.search_usedbooks http_req "nowon"    (first args))
-  (.search_usedbooks http_req "daehakro" (first args))
-  (.search_usedbooks http_req "sillim"   (first args))
-  (.search_usedbooks http_req "sinchon"  (first args)))
+  (.search_usedbooks http_req "gangnam"  (first args) #(println %))
+  (.search_usedbooks http_req "geondae"  (first args) #(println %))
+  (.search_usedbooks http_req "jongno"   (first args) #(println %))
+  (.search_usedbooks http_req "nowon"    (first args) #(println %))
+  (.search_usedbooks http_req "daehakro" (first args) #(println %))
+  (.search_usedbooks http_req "sillim"   (first args) #(println %))
+  (.search_usedbooks http_req "sinchon"  (first args) #(println %)))
 
 ;; full list:
 ;; ["gangnam" "gendae" "gwangju" "nowon" "daegu" "daejeon" "daehakro"

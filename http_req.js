@@ -27,7 +27,7 @@ function enc_bin2percent(buf)
   return str;
 }
 
-exports.search_usedbooks = function(shop, query)
+exports.search_usedbooks = function(shop, query, callback)
 {
   var buf  = new Buffer(query, 'utf-8');
   var qry_percent = enc_bin2percent(to_euckr.convert(buf));
@@ -57,6 +57,7 @@ exports.search_usedbooks = function(shop, query)
       else {
         console.log("no result");
       }
+      callback("callback: "+shop); // from clojurescript
     }
   });
 
