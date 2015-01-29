@@ -46,20 +46,14 @@ exports.search_usedbooks = function(shop, query, callback)
 
       $ = cheerio.load(body_str);
       var results = $('a.bo_l');
-
-      console.log('['+ shop +']: # of results: ' + results.length);
+      var res = [];
 
       if(results.length > 0) {
         results.each(function(i, el) {
-          console.log('- ' + $(el).text());
+          res.push($(el).text());
         });
       }
-      else {
-        console.log("no result");
-      }
-      callback("callback: "+shop); // from clojurescript
+      callback(shop, res); // to clojurescript
     }
   });
-
-  // how to return to closurescript with results?
 }

@@ -5,18 +5,20 @@
 
 (def http_req (nodejs/require "../http_req"))
 
-(defn -main [& args]
-  (.search_usedbooks http_req "gangnam"  (first args) #(println %))
-  (.search_usedbooks http_req "geondae"  (first args) #(println %))
-  (.search_usedbooks http_req "jongno"   (first args) #(println %))
-  (.search_usedbooks http_req "nowon"    (first args) #(println %))
-  (.search_usedbooks http_req "daehakro" (first args) #(println %))
-  (.search_usedbooks http_req "sillim"   (first args) #(println %))
-  (.search_usedbooks http_req "sinchon"  (first args) #(println %)))
+(def offline-shops
+  ["gangnam" "geondae" "gwangju" "nowon" "daegu" "daejeon" "daehakro"
+   "busan" "bucheon" "bundang" "sanbon" "suwon" "sillim" "sinchon"
+   "ulsan" "ilsan" "jeonju" "jongno" "cheongju"])
 
-;; full list:
-;; ["gangnam" "gendae" "gwangju" "nowon" "daegu" "daejeon" "daehakro"
-;;  "busan" "bucheon" "bundang" "sanbon" "suwon" "sillim" "sinchon"
-;;  "ulsan" "ilsan" "jeonju" "jongno" "cheongju"]
+(defn post-search [shop res]
+  (println shop ":")
+  (if (= (count res) 0)
+    (println "no books.")
+    (dorun (map println res))))
+
+(defn -main [& args]
+  (dorun
+    (map #(.search_usedbooks http_req % (first args) post-search)
+         offline-shops)))
 
 (set! *main-cli-fn* -main)
