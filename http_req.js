@@ -7,21 +7,24 @@ var to_euckr = new iconv('utf-8', 'euc-kr');
 
 var url_usedstore = "http://off.aladin.co.kr/usedstore/wsearchresult.aspx";
 
-function enc_bin2percent(buf)
+function aladin_urlenc(buf)
 {
-  var str = "";
+  var str = "", added = "";
 
   for(var i = 0; i < buf.length; i++) {
-    if(buf[i] == 0x20) {
-      str = str + "+";
+    if(buf[i] == 0x20) added = "+";            // ' '
+    else if(buf[i] == 0x5c) added = "";        // '\'
+    else if((buf[i] > 0x2f && buf[i] < 0x3a)   // 0..9
+        ||  (buf[i] > 0x40 && buf[i] < 0x5b)   // A..Z
+        ||  (buf[i] > 0x60 && buf[i] < 0x7b)   // a..z
+        || buf[i] == 0x2a || buf[i] == 0x2d    // '*', '-'
+        || buf[i] == 0x2e || buf[i] == 0x5f) { // '.', '_'
+      added = String.fromCharCode(buf[i]);
     }
-    else if(buf[i] < 0x80) {
-      str = str + String.fromCharCode(buf[i]);
-    }
-    else {
-      var hexa = '%' + buf[i].toString(16);
-      str = str + hexa;
-    }
+    else
+      added = '%' + buf[i].toString(16);
+ 
+    str += added;
   }
 
   return str;
@@ -30,7 +33,7 @@ function enc_bin2percent(buf)
 exports.search_usedbooks = function(shop, query, callback)
 {
   var buf  = new Buffer(query, 'utf-8');
-  var qry_percent = enc_bin2percent(to_euckr.convert(buf));
+  var qry_percent = aladin_urlenc(to_euckr.convert(buf));
   var url = url_usedstore + "?offcode=" + shop + "&SearchWord=" + qry_percent;
 
   var options = {
