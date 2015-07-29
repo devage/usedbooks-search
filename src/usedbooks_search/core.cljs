@@ -8,7 +8,7 @@
 (def offline-shops
   ["gangnam" "geondae" "gwangju" "nowon" "daegu" "daejeon" "daehakro"
    "busan" "bucheon" "bundang" "sanbon" "suwon" "sillim" "sinchon"
-   "ulsan" "ilsan" "jeonju" "jongno" "cheongju"])
+   "ulsan" "ilsan" "sincheon" "jeonju" "jongno" "cheongju"])
 
 (defn post-search [shop res]
   (println shop ":")

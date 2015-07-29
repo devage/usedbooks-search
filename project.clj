@@ -3,7 +3,8 @@
   :url "https://github.com/vvalkyrie/usedbooks-search"
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2657"]]
+                 [org.clojure/clojurescript "0.0-2657"]
+                 [enfocus "2.1.0"]]
 
   :node-dependencies [[source-map-support "0.2.8"]
                       [iconv   "2.1.5"]
@@ -13,12 +14,13 @@
   :plugins [[lein-cljsbuild "1.0.4"]
             [lein-npm "0.4.0"]]
 
-  :source-paths ["src"]
+  :source-paths ["src" "target/classes"]
 
   :cljsbuild {
     :builds [{:id "usedbooks-search"
               :source-paths ["src"]
               :compiler {
+                :cache-analysis true
                 :output-to "out/usedbooks_search.js"
                 :output-dir "out"
                 :target :nodejs
