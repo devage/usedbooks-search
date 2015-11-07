@@ -2,17 +2,18 @@
   :description "Search for used books on the offline stores of aladin.co.kr."
   :url "https://github.com/vvalkyrie/usedbooks-search"
 
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2657"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.145"]
                  [enfocus "2.1.0"]]
 
-  :node-dependencies [[source-map-support "0.2.8"]
-                      [iconv   "2.1.5"]
-                      [cheerio "0.18.0"]
-                      [request "2.51.0"]]
-
-  :plugins [[lein-cljsbuild "1.0.4"]
-            [lein-npm "0.4.0"]]
+  :npm {
+        :dependencies [[source-map-support "0.3.3"]
+                       [iconv   "2.1.11"]
+                       [cheerio "0.19.0"]
+                       [request "2.65.0"]]}
+                 
+  :plugins [[lein-cljsbuild "1.1.0"]
+            [lein-npm "0.6.1"]]
 
   :source-paths ["src" "target/classes"]
 
