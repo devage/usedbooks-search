@@ -6,7 +6,4 @@
        :version "0.2.0"}
   jar {:manifest {"Foo" "bar"}})
 
-(deftask build
-  "Build my project."
-  []
-  (comp (pom) (jar) (install)))
+(require '[usedbooks-search.boot-build :refer :all])
