@@ -5,4 +5,4 @@
 (core/deftask build
   "Build my project."
   []
-  (comp (task/pom) (task/jar) (task/install)))
+  (comp (task/aot) (task/pom) (task/uber) (task/jar) (task/target)))

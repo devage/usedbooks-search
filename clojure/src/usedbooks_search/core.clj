@@ -1,6 +1,11 @@
-(ns usedbooks-search.core)
+(ns usedbooks-search.core
+  (:require [net.cgrand.enlive-html :as html])
+  (:gen-class))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn fetch-url [url]
+  (html/html-resource (java.net.URL. url)))
+
+(defn -main [& args]
+  (if (> (count args) 0)
+    (println "Hello," (first args))
+    (println "Hello, World")))
