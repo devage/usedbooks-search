@@ -8,3 +8,5 @@ node_modules/
 .lein-deps-sum
 .lein-repl-history
 .lein-plugins/
+.nrepl-history
+.DS_Store
