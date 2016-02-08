@@ -55,33 +55,25 @@
 (defn fetch-url [url]
   (html/html-resource (java.net.URL. url)))
 
-(defn parse-titles [q]
-  (html/select
-    (fetch-url (usedstore-url "jongno"
-                              (encode-aladin-query q)))
-    [:a.bo_l :b]))
+(defn html-select [html element]
+  (html/select html element))
 
-(defn parse-each-prices [q]
-  (html/select
-    (fetch-url (usedstore-url "jongno"
-                              (encode-aladin-query q)))
-    [:span.ss_p2]))
+(defn select-titles [html]
+  (html-select html [:a.bo_l :b]))
 
-(defn parse-each-nbooks [q]
-  (html/select
-    (fetch-url (usedstore-url "jongno"
-                              (encode-aladin-query q)))
-    [:span.ss_p4]))
+(defn select-each-prices [html]
+  (html-select html [:span.ss_p2]))
 
-(defn parse-total-nbooks [q]
-  (html/select
-    (fetch-url (usedstore-url "jongno"
-                              (encode-aladin-query q)))
-    [:span.ss_f_g_l]))
+(defn select-each-nbooks [html]
+  (html-select html [:span.ss_p4]))
+
+(defn select-total-nbooks [html]
+  (html-select html [:span.ss_f_g_l]))
 
 (defn find-total-nbooks [q]
-  (let [result
-        (first (:content (first (parse-total-nbooks q))))]
+  (let [url    (usedstore-url "jongno" (encode-aladin-query q))
+        html   (fetch-url url)
+        result (first (:content (first (select-total-nbooks html))))]
     (if (nil? result)
       0
       result)))
