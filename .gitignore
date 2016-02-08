@@ -10,3 +10,4 @@ node_modules/
 .lein-plugins/
 .nrepl-history
 .DS_Store
+.*.swp
