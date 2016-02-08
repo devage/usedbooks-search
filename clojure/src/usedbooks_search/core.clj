@@ -55,9 +55,38 @@
 (defn fetch-url [url]
   (html/html-resource (java.net.URL. url)))
 
+(defn parse-titles [q]
+  (html/select
+    (fetch-url (usedstore-url "jongno"
+                              (encode-aladin-query q)))
+    [:a.bo_l :b]))
+
+(defn parse-each-prices [q]
+  (html/select
+    (fetch-url (usedstore-url "jongno"
+                              (encode-aladin-query q)))
+    [:span.ss_p2]))
+
+(defn parse-each-nbooks [q]
+  (html/select
+    (fetch-url (usedstore-url "jongno"
+                              (encode-aladin-query q)))
+    [:span.ss_p4]))
+
+(defn parse-total-nbooks [q]
+  (html/select
+    (fetch-url (usedstore-url "jongno"
+                              (encode-aladin-query q)))
+    [:span.ss_f_g_l]))
+
+(defn find-total-nbooks [q]
+  (let [result
+        (first (:content (first (parse-total-nbooks q))))]
+    (if (nil? result)
+      0
+      result)))
+
 (defn -main [& args]
   (if (= (count args) 0)
     (println "USAGE: usedbooks-search <query-string>")
-    (println
-      (fetch-url (usedstore-url "jongno"
-                                (encode-aladin-query (first args)))))))
+    (println (find-total-nbooks (first args)))))
