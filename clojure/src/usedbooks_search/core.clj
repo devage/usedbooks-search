@@ -70,15 +70,26 @@
 (defn select-total-nbooks [html]
   (html-select html [:span.ss_f_g_l]))
 
-(defn find-total-nbooks [q]
-  (let [url    (usedstore-url "jongno" (encode-aladin-query q))
+(defn find-total-nbooks [q shop]
+  (let [url    (usedstore-url shop (encode-aladin-query q))
         html   (fetch-url url)
         result (first (:content (first (select-total-nbooks html))))]
     (if (nil? result)
       0
       result)))
 
+(defn print-result-nbooks [result shop]
+  (println (str shop ": " (if (= result 0) "no books" result))))
+
+(defn search-total-nbooks [q shop after-search]
+  (after-search
+    (find-total-nbooks q shop)
+    shop))
+
 (defn -main [& args]
   (if (= (count args) 0)
     (println "USAGE: usedbooks-search <query-string>")
-    (println (find-total-nbooks (first args)))))
+    (dorun
+      (pmap #(search-total-nbooks (first args) % print-result-nbooks)
+            offline-shops)
+      (shutdown-agents)))) ; to avoid 1-minute hang before exit
