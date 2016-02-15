@@ -70,10 +70,8 @@
 (defn select-total-nbooks [html]
   (html-select html [:span.ss_f_g_l]))
 
-(defn find-total-nbooks [q shop]
-  (let [url    (usedstore-url shop (encode-aladin-query q))
-        html   (fetch-url url)
-        result (first (:content (first (select-total-nbooks html))))]
+(defn parse-total-nbooks [html]
+  (let [result (first (:content (first (select-total-nbooks html))))]
     (if (nil? result)
       0
       result)))
@@ -82,9 +80,10 @@
   (println (str shop ": " (if (= result 0) "no books" result))))
 
 (defn search-total-nbooks [q shop after-search]
-  (after-search
-    (find-total-nbooks q shop)
-    shop))
+  (let [url (usedstore-url shop (encode-aladin-query q))]
+    (after-search
+      (parse-total-nbooks (fetch-url url))
+      shop)))
 
 (defn -main [& args]
   (if (= (count args) 0)
