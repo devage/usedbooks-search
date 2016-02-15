@@ -81,9 +81,10 @@
 
 (defn search-total-nbooks [q shop after-search]
   (let [url (usedstore-url shop (encode-aladin-query q))]
-    (after-search
-      (parse-total-nbooks (fetch-url url))
-      shop)))
+    (-> url
+        fetch-url
+        parse-total-nbooks
+        (after-search shop))))
 
 (defn -main [& args]
   (if (= (count args) 0)
