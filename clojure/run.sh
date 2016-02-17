@@ -1,3 +1,3 @@
 #!/bin/sh
 
-java -jar target/project.jar $1
+java -jar target/project.jar \"$1\"
