@@ -55,20 +55,17 @@
 (defn fetch-url [url]
   (html/html-resource (java.net.URL. url)))
 
-(defn html-select [html element]
-  (html/select html element))
-
 (defn select-titles [html]
-  (html-select html [:a.bo_l :b]))
+  (html/select html [:a.bo_l :b]))
 
 (defn select-each-prices [html]
-  (html-select html [:span.ss_p2]))
+  (html/select html [:span.ss_p2]))
 
 (defn select-each-nbooks [html]
-  (html-select html [:span.ss_p4]))
+  (html/select html [:span.ss_p4]))
 
 (defn select-total-nbooks [html]
-  (html-select html [:span.ss_f_g_l]))
+  (html/select html [:span.ss_f_g_l]))
 
 (defn parse-total-nbooks [html]
   (let [result (first (:content (first (select-total-nbooks html))))]
